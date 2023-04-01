@@ -1,0 +1,33 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class SlidingWindow {
+    public static void main(String[] args){
+        long[] arr={-8, 2, 3, -6, 10};
+        long[] result=new long[5];
+        result=printFirstNegativeInteger(arr,arr.length,2);
+        System.out.println(Arrays.toString(result));
+    }
+    public static long[] printFirstNegativeInteger(long A[], int N, int K)
+    {
+        long[] arr=new long[N-K+1];
+        int i=0,j=0;
+        int p=0;
+        ArrayList<Long> neg=new ArrayList<Long>();
+        while(j<A.length){
+            if(A[j]<0)neg.add(A[j]);
+            if(j-i+1<K)j++;
+            else if(j-i+1==K){
+                if(neg.size()==0)arr[p++]=0;
+                else{
+                    arr[p++]=neg.get(0);
+                    if(A[i]==neg.get(0))neg.remove(0);
+                }
+               i++;
+               j++;
+            }
+        }
+        return arr;
+    }
+}
