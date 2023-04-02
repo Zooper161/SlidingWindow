@@ -1,0 +1,55 @@
+import java.util.*;
+public class SlidingWindow{
+    public static void main(String[] args){
+        String pat="for";
+        String txt="forxxorfxxrof";
+        int ans=search(pat,txt);
+        System.out.println(ans);
+    }
+    public static int search(String pat, String txt) {
+        HashMap<Character, Integer> m = new HashMap<Character, Integer>();
+        for (char i : pat.toCharArray()) {
+            if(m.containsKey(i)){
+                m.put(i,m.get(i)+1);
+            }
+            else{
+                m.put(i,1);
+            }
+        }
+
+        int k = pat.length();
+        int count = m.size();
+        int ans = 0;
+        int i = 0, j = 0;
+
+        while (j < txt.length()) {
+
+            if (m.containsKey(txt.charAt(j))) {
+                m.put(txt.charAt(j), m.get(txt.charAt(j)) - 1);
+
+                if (m.get(txt.charAt(j)) == 0)
+                    count--;
+            }
+
+            if (j - i + 1 < k)
+                j++;
+
+            else if (j - i + 1 == k) {
+                if (count == 0)
+                    ans++;
+
+                if (m.containsKey(txt.charAt(i))) {
+                    m.put(txt.charAt(i), m.get(txt.charAt(i)) + 1);
+
+                    if (m.get(txt.charAt(i)) == 1)
+                        count++;
+                }
+
+                i++;
+                j++;
+            }
+        }
+
+        return ans;
+    }
+}
