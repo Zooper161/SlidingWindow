@@ -1,0 +1,38 @@
+class sliding_Window{
+      public static void main(String[] args){
+        int[] arr={-1,2,3,-5,4,8,-6};
+        int k=5;
+        int n=arr.length;
+        ans=lenOfLongSubarr(arr,n,k);
+        System.out.println(ans);
+      }
+public static int lenOfLongSubarr(int[] arr, int n, int k) {
+    // Initialize current sum and maximum length
+    int currentSum = 0;
+    int maxLength = 0;
+    // Create a hash map to store prefix sums and their indices
+    HashMap<Integer, Integer> map = new HashMap<>();
+    // Loop through the array
+    for (int i = 0; i < n; i++) {
+        // Add the current element to the current sum
+        currentSum += arr[i];
+        // If the current sum is equal to k
+        if (currentSum == k) {
+            // Update the maximum length with i + 1
+            maxLength = i + 1;
+        }
+        // If there is a previous prefix sum that is equal to current sum - k
+        if (map.containsKey(currentSum - k)) {
+            // Update the maximum length with i - map.get(currentSum - k)
+            maxLength = Math.max(maxLength, i - map.get(currentSum - k));
+        }
+        // If the current sum is not present in the map
+        if (!map.containsKey(currentSum)) {
+            // Store it with its index
+            map.put(currentSum, i);
+        }
+    }
+    // Return the maximum length
+    return maxLength;
+}
+}
